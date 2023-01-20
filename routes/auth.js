@@ -62,17 +62,10 @@ authRoutes.post("/api/auth/login", (req, res, next) => {
 
 //----- Logout user
 authRoutes.post("/api/auth/logout", (req, res) => {
-  if(req.user) {
-    res.json({
-      success: true,
-      user: req.user
-    });
-  } else {
-    res.json({
-      success: false,
-      message: "No active session"
-    });
-  }
+  req.logout(err => {
+    if(err) console.log(err);
+    res.json({ success: true });
+  });
 });
 
 //----- Retrieve authenticated user

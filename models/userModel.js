@@ -6,6 +6,15 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  fullName: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  state: {
+    type: String
+  },
   password: {
     type: String,
     required: true

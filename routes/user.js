@@ -40,6 +40,30 @@ userRoutes.route("/api/user/:id")
       message: "Invalid userID"
     })
   });
+})
+//----- Edit given user
+.put((req, res) => {
+  let updates = {};
+
+  // **Needs to be optimized**
+  if(req.body.fullName) {
+    updates.fullName = req.body.fullName;
+  }
+  if(req.body.city) {
+    updates.city = req.body.city;
+  }
+  if(req.body.state) {
+    updates.state = req.body.state;
+  }
+
+  User.findByIdAndUpdate(req.params.id, updates)
+  .then(updatedDoc => {
+    res.json({
+      success: true,
+      user: updatedDoc
+    });
+  })
+  .catch(err => console.log(err));
 });
 
 module.exports = userRoutes;
