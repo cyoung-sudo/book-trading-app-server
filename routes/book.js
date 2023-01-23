@@ -4,6 +4,17 @@ const bookRoutes = express.Router();
 const Book = require("../models/bookModel");
 
 bookRoutes.route("/api/book")
+//----- Retrieve all books
+.get((req, res) => {
+  Book.find({})
+  .then(allDocs => {
+    res.json({
+      success: true,
+      books: allDocs
+    });
+  })
+  .catch(err => console.log(err));
+})
 //----- Create book
 .post((req, res) => {
   let newBook = new Book({
@@ -18,6 +29,21 @@ bookRoutes.route("/api/book")
     res.json({
       success: true,
       book: savedDoc
+    });
+  })
+  .catch(err => console.log(err));
+});
+
+bookRoutes.route("/api/book/:userId")
+//----- Retrieve all books for user
+.get((req, res) => {
+  Book.find({
+    ownerId: req.params.userId
+  })
+  .then(docs => {
+    res.json({
+      success: true,
+      books: docs
     });
   })
   .catch(err => console.log(err));
