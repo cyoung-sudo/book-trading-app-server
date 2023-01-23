@@ -21,7 +21,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60000  * 5 } // 5min
+  cookie: { maxAge: 60000 * 5 } // 5min
 }));
 // Passport
 app.use(passport.initialize());
@@ -30,6 +30,7 @@ app.use(passport.session());
 //----- Routes
 app.use(require("./routes/auth"));
 app.use(require("./routes/user"));
+app.use(require("./routes/book"));
  
 //----- Connection
 app.listen(port, () => {
