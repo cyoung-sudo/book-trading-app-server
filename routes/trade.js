@@ -36,4 +36,34 @@ tradeRoutes.route("/api/trade")
   .catch(err => console.log(err));
 });
 
+tradeRoutes.route("/api/trade/initiator/:userId")
+//----- Retrieve all trades for given initiator
+.get((req, res) => {
+  Trade.find({
+    initiatorId: req.params.userId
+  })
+  .then(allDocs => {
+    res.json({
+      success: true,
+      trades: allDocs
+    });
+  })
+  .catch(err => console.log(err));
+})
+
+tradeRoutes.route("/api/trade/recipient/:userId")
+//----- Retrieve all trades for given recipient
+.get((req, res) => {
+  Trade.find({
+    recipientId: req.params.userId
+  })
+  .then(allDocs => {
+    res.json({
+      success: true,
+      trades: allDocs
+    });
+  })
+  .catch(err => console.log(err));
+})
+
 module.exports = tradeRoutes;
