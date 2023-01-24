@@ -32,6 +32,17 @@ bookRoutes.route("/api/book")
     });
   })
   .catch(err => console.log(err));
+})
+//----- Delete book
+.delete((req, res) => {
+  Book.findByIdAndDelete(req.body.id)
+  .then(deletedDoc => {
+    res.json({
+      success: true,
+      book: deletedDoc
+    })
+  })
+  .catch(err => console.log(err));
 });
 
 bookRoutes.route("/api/book/:userId")
@@ -44,6 +55,19 @@ bookRoutes.route("/api/book/:userId")
     res.json({
       success: true,
       books: docs
+    });
+  })
+  .catch(err => console.log(err));
+})
+//----- Delete all books for given user
+.delete((req, res) => {
+  Book.deleteMany({
+    ownerId: req.params.userId
+  })
+  .then(deleteCount => {
+    res.json({
+      success: true,
+      count: deleteCount
     });
   })
   .catch(err => console.log(err));

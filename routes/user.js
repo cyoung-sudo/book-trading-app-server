@@ -64,6 +64,17 @@ userRoutes.route("/api/user/:id")
     });
   })
   .catch(err => console.log(err));
+})
+//----- Delete given user
+.delete((req, res) => {
+  User.findByIdAndDelete(req.params.id)
+  .then(deletedDoc => {
+    res.json({
+      success: true,
+      user: deletedDoc
+    });
+  })
+  .catch(err => console.log(err));
 });
 
 module.exports = userRoutes;
