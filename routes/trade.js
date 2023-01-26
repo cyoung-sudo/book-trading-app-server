@@ -36,6 +36,19 @@ tradeRoutes.route("/api/trade")
   .catch(err => console.log(err));
 });
 
+tradeRoutes.route("/api/trade/:id")
+//----- Delete trade
+.delete((req, res) => {
+  Trade.findByIdAndDelete(req.params.id)
+  .then(deletedDoc => {
+    res.json({
+      success: true,
+      trade: deletedDoc
+    });
+  })
+  .catch(err => console.log(err));
+});
+
 tradeRoutes.route("/api/trade/initiator/:userId")
 //----- Retrieve all trades for given initiator
 .get((req, res) => {
@@ -49,7 +62,7 @@ tradeRoutes.route("/api/trade/initiator/:userId")
     });
   })
   .catch(err => console.log(err));
-})
+});
 
 tradeRoutes.route("/api/trade/recipient/:userId")
 //----- Retrieve all trades for given recipient
@@ -64,6 +77,25 @@ tradeRoutes.route("/api/trade/recipient/:userId")
     });
   })
   .catch(err => console.log(err));
-})
+});
+
+tradeRoutes.route("/api/trade/deleteRelated/:bookId")
+//----- Delete all trades related to given book
+.delete((req, res) => {
+  // Delete trades requesting given boook
+  Trade.deleteMany({
+    $or: [
+      { "request.bookId": req.params.bookId },
+      { "offer.bookId": req.params.bookId }
+    ]
+  })
+  .then(deleteCount => {
+    res.json({
+      success: true,
+      count: deleteCount
+    });
+  })
+  .catch(err => console.log(err));
+});
 
 module.exports = tradeRoutes;

@@ -45,6 +45,26 @@ bookRoutes.route("/api/book")
   .catch(err => console.log(err));
 });
 
+bookRoutes.route("/api/book/:id")
+//----- Update given book
+.put((req, res) => {
+  let updates = {
+    ownerUsername: req.body.ownerUsername,
+    ownerId: req.body.ownerId
+  };
+
+  Book.findByIdAndUpdate(req.params.id, updates, { 
+    new: true 
+  })
+  .then(allDocs => {
+    res.json({
+      success: true,
+      books: allDocs
+    });
+  })
+  .catch(err => console.log(err));
+});
+
 bookRoutes.route("/api/book/:userId")
 //----- Retrieve all books for user
 .get((req, res) => {
