@@ -49,6 +49,24 @@ tradeRoutes.route("/api/trade/:id")
   .catch(err => console.log(err));
 });
 
+tradeRoutes.route("/api/trade/user/:userId")
+//----- Delete all trades for given user
+.delete((req, res) => {
+  Trade.deleteMany({
+    $or: [
+      { initiatorId: req.params.userId },
+      { recipientId: req.params.userId }
+    ]
+  })
+  .then(deleteCount => {
+    res.json({
+      success: true,
+      count: deleteCount
+    });
+  })
+  .catch(err => console.log(err));
+});
+
 tradeRoutes.route("/api/trade/initiator/:userId")
 //----- Retrieve all trades for given initiator
 .get((req, res) => {
