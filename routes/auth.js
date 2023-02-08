@@ -21,7 +21,10 @@ authRoutes.post("/api/auth/signup", (req, res) => {
       // Save user
       newUser.save()
       .then(savedDoc => {
-        res.json({ success: true });
+        res.json({ 
+          success: true,
+          user: savedDoc
+        });
       })
       .catch(err => {
         console.log(err);

@@ -32,17 +32,6 @@ bookRoutes.route("/api/book")
     });
   })
   .catch(err => console.log(err));
-})
-//----- Delete book
-.delete((req, res) => {
-  Book.findByIdAndDelete(req.body.id)
-  .then(deletedDoc => {
-    res.json({
-      success: true,
-      book: deletedDoc
-    })
-  })
-  .catch(err => console.log(err));
 });
 
 bookRoutes.route("/api/book/:id")
@@ -56,16 +45,27 @@ bookRoutes.route("/api/book/:id")
   Book.findByIdAndUpdate(req.params.id, updates, { 
     new: true 
   })
-  .then(allDocs => {
+  .then(updatedDoc => {
     res.json({
       success: true,
-      books: allDocs
+      book: updatedDoc
     });
+  })
+  .catch(err => console.log(err));
+})
+//----- Delete given book
+.delete((req, res) => {
+  Book.findByIdAndDelete(req.params.id)
+  .then(deletedDoc => {
+    res.json({
+      success: true,
+      book: deletedDoc
+    })
   })
   .catch(err => console.log(err));
 });
 
-bookRoutes.route("/api/book/:userId")
+bookRoutes.route("/api/book/user/:userId")
 //----- Retrieve all books for user
 .get((req, res) => {
   Book.find({
@@ -84,10 +84,10 @@ bookRoutes.route("/api/book/:userId")
   Book.deleteMany({
     ownerId: req.params.userId
   })
-  .then(deleteCount => {
+  .then(deletedCount => {
     res.json({
       success: true,
-      count: deleteCount
+      count: deletedCount.deletedCount
     });
   })
   .catch(err => console.log(err));

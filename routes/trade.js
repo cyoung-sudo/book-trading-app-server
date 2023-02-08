@@ -107,10 +107,10 @@ tradeRoutes.route("/api/trade/deleteRelated/:bookId")
       { "offer.bookId": req.params.bookId }
     ]
   })
-  .then(deleteCount => {
+  .then(deletedCount => {
     res.json({
       success: true,
-      count: deleteCount
+      count: deletedCount.deletedCount
     });
   })
   .catch(err => console.log(err));

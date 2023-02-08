@@ -56,7 +56,9 @@ userRoutes.route("/api/user/:id")
     updates.state = req.body.state;
   }
 
-  User.findByIdAndUpdate(req.params.id, updates)
+  User.findByIdAndUpdate(req.params.id, updates, { 
+    new: true 
+  })
   .then(updatedDoc => {
     res.json({
       success: true,
